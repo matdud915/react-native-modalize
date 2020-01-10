@@ -52,6 +52,12 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
   alwaysOpen?: number;
 
   /**
+   * When true, hides the overlay.
+   * @default false
+   */
+  noOverlay?: boolean;
+
+  /**
    * Define where the handle on top of the modal should be positioned.
    * @default 'outside'
    */
