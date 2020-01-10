@@ -75,6 +75,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
   constructor(props: IProps<FlatListItem, SectionListItem>) {
     super(props);
 
+    const { fromTop } = props;
     const fullHeight = isIos ? screenHeight : screenHeight - 10;
     const computedHeight = fullHeight - this.handleHeight - (isIphoneX ? 34 : 0);
     const modalHeight = props.modalHeight || computedHeight;
@@ -103,10 +104,12 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       );
     }
 
+    const diff = this.props.fromTop ? -screenHeight : 0;
+
     if (props.snapPoint) {
-      this.snaps.push(0, modalHeight - props.snapPoint, modalHeight);
+      this.snaps.push(diff, diff + modalHeight - props.snapPoint, modalHeight + diff);
     } else {
-      this.snaps.push(0, modalHeight);
+      this.snaps.push(diff, modalHeight + diff);
     }
 
     this.snapEnd = this.snaps[this.snaps.length - 1];
@@ -128,6 +131,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
 
     this.beginScrollY.addListener(({ value }) => (this.beginScrollYValue = value));
     this.reverseBeginScrollY = Animated.multiply(new Animated.Value(-1), this.beginScrollY);
+    this.translateY.setValue(fromTop ? -screenHeight : screenHeight);
   }
 
   componentDidMount() {
@@ -194,19 +198,23 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
 
   private get modalizeContent(): StyleProp<any> {
     const { modalHeight } = this.state;
+    const { fromTop } = this.props;
+    const marginProp = fromTop ? { marginBottom: 'auto' } : { marginTop: 'auto' };
     const valueY = Animated.add(this.dragY, this.reverseBeginScrollY);
+    const diff = fromTop ? -screenHeight : 0;
 
     return {
       height: modalHeight,
       transform: [
         {
           translateY: Animated.add(this.translateY, valueY).interpolate({
-            inputRange: [-40, 0, this.snapEnd],
-            outputRange: [0, 0, this.snapEnd],
+            inputRange: [-40 + diff, diff, this.snapEnd],
+            outputRange: [diff, diff, this.snapEnd],
             extrapolate: 'clamp',
           }),
         },
       ],
+      ...marginProp,
     };
   }
 
@@ -262,13 +270,22 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
   };
 
   private onAnimateClose = (dest: 'alwaysOpen' | 'default' = 'default'): void => {
-    const { onClosed, useNativeDriver, snapPoint, closeAnimationConfig, alwaysOpen } = this.props;
+    const {
+      onClosed,
+      useNativeDriver,
+      snapPoint,
+      closeAnimationConfig,
+      alwaysOpen,
+      fromTop,
+    } = this.props;
     const { timing, spring } = closeAnimationConfig!;
-    const { overlay, modalHeight } = this.state;
+    const { overlay, modalHeight, contentHeight } = this.state;
     const lastSnap = snapPoint ? this.snaps[1] : 80;
     const toInitialAlwaysOpen = dest === 'alwaysOpen' && Boolean(alwaysOpen);
-    const toValue = toInitialAlwaysOpen ? modalHeight - alwaysOpen! : screenHeight;
-
+    let toValue = toInitialAlwaysOpen ? modalHeight - alwaysOpen! : screenHeight;
+    if (fromTop) {
+      toValue = -contentHeight;
+    }
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
 
     this.beginScrollYValue = 0;
@@ -312,7 +329,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
   };
 
   private onContentViewLayout = ({ nativeEvent }: LayoutChangeEvent): void => {
-    const { adjustToContentHeight, snapPoint, alwaysOpen } = this.props;
+    const { adjustToContentHeight, snapPoint, alwaysOpen, fromTop } = this.props;
     const { contentHeight, modalHeight } = this.state;
 
     if (
@@ -337,6 +354,9 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       },
       () => {
         this.contentAlreadyCalculated = true;
+        if (fromTop) {
+          this.translateY.setValue(-nativeEvent.layout.height);
+        }
         this.onAnimateOpen();
       },
     );
@@ -513,8 +533,10 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
   };
 
   private renderHandle = (): React.ReactNode => {
-    const { handleStyle, useNativeDriver, withHandle } = this.props;
-    const handleStyles: any[] = [s.handle];
+    const { handleStyle, useNativeDriver, withHandle, fromTop } = this.props;
+    const handlePosition = fromTop ? { bottom: -20 } : { top: -20 };
+    const handleBottomPosition = fromTop ? { bottom: 0 } : { top: 0 };
+    const handleStyles: any[] = [s.handle, handlePosition];
     const shapeStyles: any[] = [s.handle__shape, handleStyle];
 
     if (!withHandle) {
@@ -522,7 +544,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
     }
 
     if (!this.isHandleOutside) {
-      handleStyles.push(s.handleBottom);
+      handleStyles.push(s.handleBottom, handleBottomPosition);
       shapeStyles.push(s.handle__shapeBottom, handleStyle);
     }
 
@@ -685,6 +707,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       keyboardAvoidingBehavior,
       alwaysOpen,
       noOverlay,
+      fromTop,
     } = this.props;
     const { isVisible, lastSnap, showContent } = this.state;
     const enabled = isIos && adjustToContentHeight;
@@ -694,13 +717,17 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       return null;
     }
 
+    const radiusStyle = fromTop
+      ? { borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }
+      : { borderTopLeftRadius: 12, borderTopRightRadius: 12 };
+
     return (
       <View style={s.modalize} pointerEvents={pointerEvents}>
         <TapGestureHandler ref={this.modal} maxDurationMs={100000} maxDeltaY={lastSnap}>
           <View style={s.modalize__wrapper} pointerEvents="box-none">
             {showContent && (
               <AnimatedKeyboardAvoidingView
-                style={[s.modalize__content, this.modalizeContent, modalStyle]}
+                style={[s.modalize__content, this.modalizeContent, modalStyle, radiusStyle]}
                 behavior={keyboardAvoidingBehavior || 'padding'}
                 enabled={enabled}
               >

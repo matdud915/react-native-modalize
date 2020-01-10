@@ -58,6 +58,12 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
   noOverlay?: boolean;
 
   /**
+   * When true, modal slides from top.
+   * @default false
+   */
+  fromTop?: boolean;
+
+  /**
    * Define where the handle on top of the modal should be positioned.
    * @default 'outside'
    */
