@@ -40,6 +40,16 @@ The value you pass is the height of the visible part of the modal on top of the 
 | -------- | -------- |
 | number   | No       |
 
+### `noOverlay`
+
+Disable the everlay.
+
+If true, the modal will not have a dimmed background, making it possible to interact with the content outside of it.
+
+| Type     | Required | Default  |
+| -------- | -------- | -------- |
+| bool     | No       | `false`   |
+
 ### `handlePosition`
 
 Define where the handle on top of the modal should be positioned.
