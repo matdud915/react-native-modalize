@@ -21,7 +21,7 @@ export default StyleSheet.create({
 
   modalize__content: {
     zIndex: 5,
-    backgroundColor: '#caf',
+    backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.1,
