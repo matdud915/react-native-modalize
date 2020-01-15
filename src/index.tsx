@@ -544,7 +544,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
     }
 
     if (!this.isHandleOutside) {
-      handleStyles.push(s.handleBottom, handleBottomPosition);
+      handleStyles.push(handleBottomPosition);
       shapeStyles.push(s.handle__shapeBottom, handleStyle);
     }
 
