@@ -78,7 +78,8 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
     const { fromTop } = props;
 
     const fullHeight = isIos || fromTop ? screenHeight : screenHeight - 10;
-    const computedHeight = fullHeight - (fromTop ? 0 : this.handleHeight) - (isIphoneX ? 34 : 0);
+    const computedHeight =
+      fullHeight - (fromTop ? 0 : this.handleHeight) - (isIphoneX && !fromTop ? 34 : 0);
     const modalHeight = props.modalHeight || computedHeight;
 
     if (props.withReactModal) {
