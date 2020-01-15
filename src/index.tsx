@@ -721,9 +721,9 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
     const radiusStyle = fromTop
       ? { borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }
       : { borderTopLeftRadius: 12, borderTopRightRadius: 12 };
-
+    const extraTop = { top: isIphoneX && fromTop ? 20 : 0 };
     return (
-      <View style={s.modalize} pointerEvents={pointerEvents}>
+      <View style={[s.modalize, extraTop]} pointerEvents={pointerEvents}>
         <TapGestureHandler ref={this.modal} maxDurationMs={100000} maxDeltaY={lastSnap}>
           <View style={s.modalize__wrapper} pointerEvents="box-none">
             {showContent && (
