@@ -408,6 +408,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       adjustToContentHeight,
       alwaysOpen,
       closeAnimationConfig,
+      fromTop,
     } = this.props;
     const { timing } = closeAnimationConfig!;
     const { lastSnap, contentHeight, modalHeight, overlay } = this.state;
@@ -418,7 +419,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
     if (nativeEvent.oldState === State.ACTIVE) {
       const toValue = translationY - this.beginScrollYValue;
       let destSnapPoint = 0;
-
+      const translationYMultiplier = fromTop ? -1 : 1;
       if (snapPoint || alwaysOpen) {
         const dragToss = 0.05;
         const endOffsetY = lastSnap + toValue + dragToss * velocityY;
@@ -441,7 +442,8 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
           }
         });
       } else if (
-        translationY > (adjustToContentHeight ? contentHeight / 3 : THRESHOLD) &&
+        translationYMultiplier * translationY >
+          (adjustToContentHeight ? contentHeight / 3 : THRESHOLD) &&
         this.beginScrollYValue === 0 &&
         !alwaysOpen
       ) {
