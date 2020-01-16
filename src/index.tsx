@@ -731,7 +731,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
           <View style={s.modalize__wrapper} pointerEvents="box-none">
             {showContent && (
               <AnimatedKeyboardAvoidingView
-                style={[s.modalize__content, this.modalizeContent, modalStyle, radiusStyle]}
+                style={[s.modalize__content, this.modalizeContent, radiusStyle, modalStyle]}
                 behavior={keyboardAvoidingBehavior || 'padding'}
                 enabled={enabled}
               >
