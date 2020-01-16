@@ -343,7 +343,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       if (modalHeight <= nativeEvent.layout.height) {
         this.onAnimateOpen(alwaysOpen);
       }
-
+      this.contentAlreadyCalculated = true;
       return;
     }
 
