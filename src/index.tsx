@@ -314,10 +314,6 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
             useNativeDriver,
           }),
     ]).start(() => {
-      if (onClosed) {
-        onClosed();
-      }
-
       this.setState({ showContent: toInitialAlwaysOpen });
       this.translateY.setValue(toValue);
       this.dragY.setValue(0);
@@ -327,6 +323,9 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
         lastSnap,
         isVisible: toInitialAlwaysOpen,
       });
+      if (onClosed) {
+        onClosed();
+      }
     });
   };
 
