@@ -720,9 +720,10 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       alwaysOpen,
       panGestureEnabled,
       avoidKeyboardLikeIOS,
+      noOverlay,
     } = this.props;
     const { isVisible, lastSnap, showContent } = this.state;
-    const pointerEvents = alwaysOpen ? 'box-none' : 'auto';
+    const pointerEvents = alwaysOpen || noOverlay ? 'box-none' : 'auto';
 
     const keyboardAvoidingViewProps: KeyboardAvoidingViewProps = {
       keyboardVerticalOffset: keyboardAvoidingOffset,
@@ -757,7 +758,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
               </AnimatedKeyboardAvoidingView>
             )}
 
-            {this.renderOverlay()}
+            {!noOverlay && this.renderOverlay()}
           </View>
         </TapGestureHandler>
       </View>
