@@ -724,7 +724,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
     const { isVisible, lastSnap, showContent } = this.state;
     const pointerEvents = alwaysOpen ? 'box-none' : 'auto';
 
-    const keyboardAvoidingViewProps: Animated.AnimatedProps<KeyboardAvoidingViewProps> = {
+    const keyboardAvoidingViewProps: KeyboardAvoidingViewProps = {
       keyboardVerticalOffset: keyboardAvoidingOffset,
       behavior: keyboardAvoidingBehavior || 'padding',
       enabled: avoidKeyboardLikeIOS,
