@@ -83,6 +83,12 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
   noOverlay?: boolean;
 
   /**
+   * If true, makes the modal slide from top.
+   * @default false
+   */
+  fromTop?: boolean;
+
+  /**
    * Use the native thread to execute the animations.
    * @default true
    */
