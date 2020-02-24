@@ -77,6 +77,12 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
     | RegisteredStyle<ViewStyle[]>;
 
   /**
+   * If true, hides the overlay.
+   * @default false
+   */
+  noOverlay?: boolean;
+
+  /**
    * Use the native thread to execute the animations.
    * @default true
    */

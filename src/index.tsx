@@ -679,10 +679,16 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
   };
 
   private renderModalize = (): React.ReactNode => {
-    const { modalStyle, adjustToContentHeight, keyboardAvoidingBehavior, alwaysOpen } = this.props;
+    const {
+      modalStyle,
+      adjustToContentHeight,
+      keyboardAvoidingBehavior,
+      alwaysOpen,
+      noOverlay,
+    } = this.props;
     const { isVisible, lastSnap, showContent } = this.state;
     const enabled = isIos && adjustToContentHeight;
-    const pointerEvents = alwaysOpen ? 'box-none' : 'auto';
+    const pointerEvents = alwaysOpen || noOverlay ? 'box-none' : 'auto';
 
     if (!isVisible) {
       return null;
@@ -705,7 +711,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
               </AnimatedKeyboardAvoidingView>
             )}
 
-            {this.renderOverlay()}
+            {!noOverlay && this.renderOverlay()}
           </View>
         </TapGestureHandler>
       </View>
