@@ -285,12 +285,12 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       fromTop,
     } = this.props;
     const { timing, spring } = closeAnimationConfig!;
-    const { overlay, modalHeight } = this.state;
+    const { overlay, modalHeight, contentHeight } = this.state;
     const lastSnap = snapPoint ? this.snaps[1] : 80;
     const toInitialAlwaysOpen = dest === 'alwaysOpen' && Boolean(alwaysOpen);
     let toValue = toInitialAlwaysOpen ? (modalHeight || 0) - alwaysOpen! : screenHeight;
     if (fromTop) {
-      toValue = modalHeight ? -modalHeight : 0;
+      toValue = modalHeight ? -contentHeight + modalHeight : -screenHeight;
     }
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
 
