@@ -63,6 +63,11 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
   modalStyle?: ViewStyle | ViewStyle[] | RegisteredStyle<ViewStyle> | RegisteredStyle<ViewStyle[]>;
 
   /**
+   *  the style of the modal radius.
+   */
+  radiusStyle?: ViewStyle | ViewStyle[] | RegisteredStyle<ViewStyle> | RegisteredStyle<ViewStyle[]>;
+
+  /**
    * Define the style of the handle on top of the modal.
    */
   handleStyle?: ViewStyle | ViewStyle[] | RegisteredStyle<ViewStyle> | RegisteredStyle<ViewStyle[]>;

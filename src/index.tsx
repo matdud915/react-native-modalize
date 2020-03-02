@@ -717,6 +717,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       alwaysOpen,
       noOverlay,
       fromTop,
+      radiusStyle: propRadiusStyle,
     } = this.props;
     const { isVisible, lastSnap, showContent } = this.state;
     const enabled = isIos && adjustToContentHeight;
@@ -735,7 +736,12 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
           <View style={s.modalize__wrapper} pointerEvents="box-none">
             {showContent && (
               <AnimatedKeyboardAvoidingView
-                style={[s.modalize__content, this.modalizeContent, modalStyle, radiusStyle]}
+                style={[
+                  s.modalize__content,
+                  this.modalizeContent,
+                  modalStyle,
+                  propRadiusStyle || radiusStyle,
+                ]}
                 behavior={keyboardAvoidingBehavior || 'padding'}
                 enabled={enabled}
               >
