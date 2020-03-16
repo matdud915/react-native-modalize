@@ -47,6 +47,11 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
   modalHeight?: number;
 
   /**
+   * A number to define the modal's top offset
+   */
+  modalTopOffset?: number;
+
+  /**
    * Using this props will show the modal all the time, and the number represents how expanded the modal has to be
    */
   alwaysOpen?: number;
@@ -120,15 +125,53 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
   closeAnimationConfig?: IConfigProps;
 
   /**
+   * A number that determines the momentum of the scroll required.
+   * @default 0.05
+   */
+  dragToss: number;
+
+  /**
    * Shrink the modal to your content's height.
    * @default false
    */
   adjustToContentHeight?: boolean;
 
   /**
+   * Disable the scroll when the content is shorter than screen's height.
+   * @default true
+   */
+  disableScrollIfPossible: boolean;
+
+  /**
+   * Define keyboard's Android behavior like iOS's one.
+   * @default Platform.select({ ios: true, android: false })
+   */
+  avoidKeyboardLikeIOS?: boolean;
+
+  /**
    * Define the behavior of the keyboard when having inputs inside the modal.
+   * @default padding
    */
   keyboardAvoidingBehavior?: 'height' | 'position' | 'padding';
+
+  /**
+   * KeyboardAvoidingView.keyboardVerticalOffset
+   * @default 0
+   */
+  keyboardAvoidingOffset?: number;
+
+  /**
+   * Using this prop will enable/disable pan gesture
+   * @default true
+   */
+  panGestureEnabled?: boolean;
+
+  /**
+   * Using this prop will enable/disable overlay tap gesture
+   * @default true
+   */
+  closeOnOverlayTap?: boolean;
+
   /**
    * Define if Modalize has to be wrap with the Modal component from react-native. (iOS specific)
    * @default false
@@ -144,17 +187,17 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
   /*
    * An object to pass any of the react-native ScrollView's props.
    */
-  scrollViewProps?: ScrollViewProps;
+  scrollViewProps?: Animated.AnimatedProps<ScrollViewProps>;
 
   /*
    * An object to pass any of the react-native FlatList's props.
    */
-  flatListProps?: FlatListProps<FlatListItem>;
+  flatListProps?: Animated.AnimatedProps<FlatListProps<FlatListItem>>;
 
   /*
    * An object to pass any of the react-native SectionList's props.
    */
-  sectionListProps?: SectionListProps<SectionListItem>;
+  sectionListProps?: Animated.AnimatedProps<SectionListProps<SectionListItem>>;
 
   /**
    * A header component outside of the ScrollView, on top of the modal.
@@ -192,6 +235,13 @@ export interface IProps<FlatListItem = any, SectionListItem = any> {
    * but you will have to close the modal by yourself.
    */
   onBackButtonPress?: () => void;
+
+  /**
+   * Callback function which determines if the modal has reached the top
+   * i.e. completely opened to modal/screen height, or is at the initial
+   * point (snapPoint or alwaysOpened height)
+   */
+  onPositionChange?: (position: 'top' | 'initial') => void;
 }
 
 export interface IState {
@@ -218,7 +268,7 @@ export interface IState {
   /**
    * Store the height of the modal. Depends on the `height` props and devices' height.
    */
-  modalHeight: number;
+  modalHeight: number | undefined;
 
   /**
    * Calculate the content's height. Used when `adjustToContentHeight: true`.
@@ -226,32 +276,22 @@ export interface IState {
   contentHeight: number;
 
   /**
-   * Calculate the header's height. Used when `header` props is defined.
-   */
-  headerHeight: number;
-
-  /**
-   * Calculate the footer's height. Used when `footer` props is defined.
-   */
-  footerHeight: number;
-
-  /**
    * When we scroll to the bottom of the ContentView we want the bounce animation but when we reach the top again, we want it disabled. (iOS specific)
    */
   enableBounces: boolean;
 
   /**
-   * Define the ContentView height. If `header` or `footer` are passed and are not `position: 'absolute'`, theirs heights will be substracted to the ContentView's height.
+   * Disable scroll if disableScrollIfPossible is true or if we are the initial position of the snapPoint or alwaysOpen modals
    */
-  contentViewHeight: ViewStyle[];
-
-  /**
-   * Define the scroll has to be enable or not depending of the keyboard status.
-   */
-  keyboardEnableScroll: boolean;
+  disableScroll: boolean | undefined;
 
   /**
    * Store if the keyboard is displayed. Used to change the offset on the ContentView when the keyboard is open.
    */
   keyboardToggle: boolean;
+
+  /**
+   * Store height of the keyboard.
+   */
+  keyboardHeight: number;
 }

@@ -110,15 +110,47 @@ Shrink the modal to your content's height.
 | -------- | -------- | -------- |
 | bool     | No       | `false`  |
 
+### `avoidKeyboardLikeIOS`
+
+Define keyboard's Android behavior like iOS's one.
+
+| Type     | Required | Default                                          |
+| -------- | -------- | ------------------------------------------------ |
+| bool     | No       | `Platform.select({ ios: true, android: false })` |
+
 ### `keyboardAvoidingBehavior`
 
 Define the behavior of the modal when keyboard is active.
 
 If you have any inputs inside your cont and you want to manage how the view should change when the keyboard is active. See [`react-native` documentation](https://facebook.github.io/react-native/docs/keyboardavoidingview#behavior) for more informations.
 
-| Type                                  | Required |
-| ------------------------------------- | -------- |
-| enum('height', 'position', 'padding') | No       |
+| Type                                  | Required | Default   |
+| ------------------------------------- | -------- | --------- |
+| enum('height', 'position', 'padding') | No       | `padding` |
+
+### `keyboardAvoidingOffset`
+
+See [`react-native` documentation](https://facebook.github.io/react-native/docs/keyboardavoidingview#keyboardverticaloffset) for more informations.
+
+| Type     | Required | Default  |
+| -------- | -------- | -------- |
+| number   | No       | `0`      |
+
+### `panGestureEnabled`
+
+Using this prop will enable/disable pan gesture
+
+| Type     | Required | Default  |
+| -------- | -------- | -------- |
+| bool     | No       | `true`   |
+
+### `closeOnOverlayTap`
+
+Using this prop will enable/disable overlay tap gesture
+
+| Type     | Required | Default  |
+| -------- | -------- | -------- |
+| bool     | No       | `true`   |
 
 ### `withReactModal`
 
@@ -218,6 +250,18 @@ Callback function when the modal is closed.
 | -------- | -------- |
 | function | No       |
 
+### `onPositionChange`
+
+Callback function when the modal reaches the `top` (modal/screen height) or `initial` point (snapPoint or alwaysOpen height).
+
+?> Not to be conflicted with `onOpened` which is triggered when the modal opens for the first time.
+
+| Type                                    | Required |
+| --------------------------------------- | -------- |
+| function: (position: 'top' \| 'initial') | No       |
+
+
+
 <br/>
 <br/>
 <br/>
@@ -241,7 +285,7 @@ The method to close the modal. You don't need to call it to dismiss the modal, s
 
 | Type                                       | Required |
 | ------------------------------------------ | -------- |
-| function: (dest: 'alwaysOpen' | 'default') | No       |
+| function: (dest: 'alwaysOpen' \| 'default') | No       |
 
 ### `scrollTo()`
 

@@ -1,6 +1,6 @@
 {
   "name": "react-native-modalize",
-  "version": "1.3.6",
+  "version": "1.3.7-rc.6",
   "description": "A modal that loves scrollable content.",
   "main": "lib/index.js",
   "types": "./lib/index.d.ts",
@@ -13,7 +13,7 @@
     "watch:modalize": "yarn tsc --watch",
     "watch:expo": "concurrently \"yarn watch:modalize\" \"yarn cpx 'src/**/*' 'examples/expo/node_modules/react-native-modalize' --watch\"",
     "watch:react-native-navigation": "concurrently \"yarn watch:modalize\" \"yarn cpx 'src/**/*' 'examples/react-native-navigation/node_modules/react-native-modalize' --watch\"",
-    "watch:react-navigation": "concurrently \"yarn watch:modalize\" \"yarn cpx 'src/**/*' 'examples/react-navigation/node_modules/react-native-modalize/lib' --watch\""
+    "watch:react-navigation": "concurrently \"yarn watch:modalize\" \"yarn cpx 'src/**/*' 'examples/react-navigation/node_modules/react-native-modalize' --watch\""
   },
   "keywords": [
     "react-native",
@@ -38,8 +38,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,md}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ],
     "*.{ts,tsx}": [
       "tslint --fix"
@@ -62,22 +61,22 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "8.2.0",
-    "@commitlint/config-conventional": "8.2.0",
-    "@types/react": "16.9.16",
-    "@types/react-native": "0.60.25",
-    "concurrently": "5.0.2",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
+    "@types/react": "16.9.23",
+    "@types/react-native": "0.61.20",
+    "concurrently": "5.1.0",
     "cpx": "1.5.0",
-    "husky": "3.1.0",
-    "lint-staged": "9.5.0",
+    "husky": "4.2.3",
+    "lint-staged": "10.0.8",
     "prettier": "1.19.1",
-    "react": "16.12.0",
+    "react": "16.13.0",
     "react-native": "0.61.5",
-    "react-native-gesture-handler": "1.5.2",
+    "react-native-gesture-handler": "1.6.0",
     "tslint": "5.20.1",
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.7.3"
+    "typescript": "3.8.3"
   },
   "peerDependencies": {
     "react": "> 15.0.0",
