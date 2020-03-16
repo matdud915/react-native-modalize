@@ -92,7 +92,9 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
   constructor(props: IProps<FlatListItem, SectionListItem>) {
     super(props);
 
-    const fullHeight = isIos ? screenHeight - props.modalTopOffset! : screenHeight - 10 - props.modalTopOffset!;
+    const fullHeight = isIos
+      ? screenHeight - props.modalTopOffset!
+      : screenHeight - 10 - props.modalTopOffset!;
     const computedHeight =
       fullHeight - (props.fromTop ? 0 : this.handleHeight) - (isIphoneX ? 34 : 0);
     const modalHeight = props.modalHeight || computedHeight;
@@ -375,7 +377,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
           if (onClosed) {
             onClosed();
           }
-    
+
           if (alwaysOpen && dest === 'alwaysOpen' && onPositionChange) {
             onPositionChange('initial');
             this.modalPosition = 'initial';
@@ -757,7 +759,7 @@ export class Modalize<FlatListItem = any, SectionListItem = any> extends React.C
       ? { borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }
       : { borderTopLeftRadius: 12, borderTopRightRadius: 12 };
 
-    const keyboardAvoidingViewProps: Animated.AnimatedProps<KeyboardAvoidingViewProps> = {
+    const keyboardAvoidingViewProps: KeyboardAvoidingViewProps = {
       keyboardVerticalOffset: keyboardAvoidingOffset,
       behavior: keyboardAvoidingBehavior || 'padding',
       enabled: avoidKeyboardLikeIOS,
