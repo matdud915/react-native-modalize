@@ -483,7 +483,7 @@ const ModalizeBase = (
      * When the pan gesture began we check the position of the ScrollView "cursor".
      * We cancel the translation animation if the ScrollView is not scrolled to the top
      */
-    if (nativeEvent.oldState === State.BEGAN) {
+    if (nativeEvent.oldState === State.BEGAN && !slideFromTop) {
       setCancelClose(false);
 
       if (
