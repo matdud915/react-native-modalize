@@ -5,9 +5,9 @@
   "main": "lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./lib/* && yarn lint && tsc",
+    "build": "rimraf ./lib/* && yarn lint && tsc",
     "prepare": "yarn build",
-    "lint": "eslint 'src/**/*.ts?(x)' && prettier --list-different \"**/*.{json,md,js,jsx,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.ts?(x)\" ",
     "prettier": "prettier --write \"{docs,examples,src}/**/*.{json,md,js,jsx,ts,tsx}\"",
     "postversion": "sh ./post-version.sh",
     "watch:modalize": "yarn tsc --watch",
@@ -85,6 +85,7 @@
     "react": "17.0.2",
     "react-native": "0.66.0",
     "react-native-gesture-handler": "1.10.3",
+    "rimraf": "^3.0.2",
     "typescript": "3.9.7"
   },
   "peerDependencies": {
